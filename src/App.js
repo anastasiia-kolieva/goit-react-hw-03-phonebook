@@ -68,6 +68,30 @@ class App extends Component {
     );
   };
 
+  componentDidMount() {
+    // взять контакты с предыдущей сессии, хранящиеся в localStorage
+    const prevContacts = localStorage.getItem('contacts');
+    // запарсить массив
+    const parsedContacts = JSON.parse(prevContacts);
+
+    // если в localStorage уже есть контакты, тогда их записываем в state.
+    // если контакты=пустой массив(null), тогда ничего не записывается
+    if (parsedContacts) {
+      // записать в state предыдущие контакты
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // если текущий контакт в state НЕ равен предыдущему контакту в state
+    // проверяем обновился ли массив контактов
+    if (this.state.contacts !== prevState.contacts) {
+      // записываем в localStorage массив contacts обьектов ({id,name,number})
+      // при каждом обновлении контакта, перезаписываем массив контактов
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     const { filter } = this.state;
     // переменная для отрисовки отфильтрованных контактов

@@ -41,7 +41,6 @@ class ContactForm extends Component {
     if (!name || !number) {
       alert('Some field is empty!');
       // не прошла валидацию
-      // зачем false???????
       return false;
     }
     return onCheckUnique(name);
